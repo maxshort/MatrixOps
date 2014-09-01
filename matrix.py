@@ -2,7 +2,7 @@ import types
 import collections
 
 #all operations in this class might not be reduced to their lowest possible value
-class Fraction(Object):
+class Fraction(object):
     #creates a new fraction, denom cannot be 0
     def __init__(self,numerator, denominator=1):
         self.num=numerator
@@ -25,13 +25,12 @@ class Fraction(Object):
     def divideBy(self,other):
         return Fraction(self.num*other.denom,other.num*self.denom)
 #returns the most reduced fraction from all operations
-##class AutoReduceFraction(Fraction):
-##    def __init__(self,numerator,denominator=1):
-##        print("HI!")
-##        super().
-##        ##TODO : implement
-##        ##TODO: super()???
-##    ##TODO : add/sub/mult/divide
+class AutoReduceFraction(Fraction):
+    def __init__(self,numerator,denominator=1):
+        super().__init__(self,numerator,denominator)
+        ##TODO : implement
+        ##TODO: super()???
+    ##TODO : add/sub/mult/divide
 
 class RowOperations:
     def multiplyBy(rowList,value):
@@ -155,8 +154,15 @@ class Matrix:
 ##print(f3.denom)
 
 #Dividing Whole number that do not divide evenly
-##f1 = Fraction(15)
-##f2 = Fraction(7)
-##f3 = f1.divideBy(f2)
+f1 = Fraction(15)
+f2 = Fraction(7)
+f3 = f1.divideBy(f2)
+print (f3.num)
+print (f3.denom)
+
+#Testing the autoreduce fraction inheritance
+##f1 = AutoReduceFraction(2)
+##f2 = AutoReduceFraction(4)
+##f3 = f1.add(f2)
 ##print (f3.num)
 ##print (f3.denom)
