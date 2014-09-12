@@ -24,19 +24,31 @@ class Fraction(object):
         return Fraction(self.num*other.num,self.denom*other.denom)
     def divideBy(self,other):
         return Fraction(self.num*other.denom,other.num*self.denom)
+    def __str__(self):
+        return str(self.num)+"\n-----\n"+str(self.denom)
 #returns the most reduced fraction from all operations
+#Add/subtract/mult/div are weird b/c they trying to make immutable.
+    #might change that.
 class AutoReduceFraction(Fraction):
     def __init__(self,numerator,denominator=1):
-        super().__init__(numerator)
+        super().__init__(numerator,denominator)
         self.reduce()
     def add(self,other):
         answer = super().add(other)
         a = AutoReduceFraction(answer.num,answer.denom)
         a.reduce()
         return a
+    def subtract(self,other):
+        answer = super().subtract(other)
+        a = AutoReduceFraction(answer.num,answer.denom)
+        a.reduce()
+        return a
+    
     #uses euler's method to find the gcd of two numbers
     @staticmethod
     def gcd(num1, num2):
+        print ("num1:"+str(num1))
+        print ("num2:"+str(num2))
         if (num1==0):
             return num2
         if (num2==0):
@@ -45,6 +57,7 @@ class AutoReduceFraction(Fraction):
         return AutoReduceFraction.gcd(num2,newNum)
     def reduce(self):
         eGcd = AutoReduceFraction.gcd(self.num,self.denom)
+        print ("The gcd: "+str(eGcd))
         self.num /=eGcd
         self.denom /=eGcd
         #########################LEFT OFF HERE...
@@ -184,7 +197,7 @@ class Matrix:
 ##print (f3.denom)
 
 #Test of static method
-##print (AutoReduceFraction.gcd(8,4))
+##print (AutoReduceFraction.gcd(4,8))
 
 #test of whole numbers
 ##arf1 = AutoReduceFraction(2)
@@ -193,8 +206,22 @@ class Matrix:
 ##print(arf3.num)
 ##print(arf3.denom)
 
-arf1 = AutoReduceFraction(3,2)
-arf3 = arf1.add(arf1)
-print (arf3.num)
-print (arf3.denom)
+##arf1 = AutoReduceFraction(3,2)
+##arf3 = arf1.add(arf1)
+##print (arf3)
 
+#testing the subtraction of whole numbers
+##arf1 = AutoReduceFraction(4)
+##arf2 = AutoReduceFraction(2)
+##print (arf1.subtract(arf2))
+
+#subtraction of fraction
+#arf1 = AutoReduceFraction(18,27)
+##print (arf1)
+##arf2 = AutoReduceFraction(9,27)
+##print (arf1.subtract(arf2))
+##
+###other subtraction
+##arf1 = AutoReduceFraction(7,2)
+##arf2 = AutoReduceFraction(1,2)
+##print (arf1.subtract(arf2))
