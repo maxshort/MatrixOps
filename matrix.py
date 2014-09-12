@@ -36,19 +36,22 @@ class AutoReduceFraction(Fraction):
     def add(self,other):
         answer = super().add(other)
         a = AutoReduceFraction(answer.num,answer.denom)
-        a.reduce()
         return a
     def subtract(self,other):
         answer = super().subtract(other)
         a = AutoReduceFraction(answer.num,answer.denom)
-        a.reduce()
         return a
-    
+    def multiply(self,other):
+        answer = super().multiply(other)
+        a = AutoReduceFraction(answer.num,answer.denom)
+        return a
+    def divideBy(self,other):
+        answer = super().divideBy(other)
+        a = AutoReduceFraction(answer.num,answer.denom)
+        return a
     #uses euler's method to find the gcd of two numbers
     @staticmethod
     def gcd(num1, num2):
-        print ("num1:"+str(num1))
-        print ("num2:"+str(num2))
         if (num1==0):
             return num2
         if (num2==0):
@@ -57,7 +60,6 @@ class AutoReduceFraction(Fraction):
         return AutoReduceFraction.gcd(num2,newNum)
     def reduce(self):
         eGcd = AutoReduceFraction.gcd(self.num,self.denom)
-        print ("The gcd: "+str(eGcd))
         self.num /=eGcd
         self.denom /=eGcd
         #########################LEFT OFF HERE...
@@ -216,12 +218,36 @@ class Matrix:
 ##print (arf1.subtract(arf2))
 
 #subtraction of fraction
-#arf1 = AutoReduceFraction(18,27)
-##print (arf1)
+##arf1 = AutoReduceFraction(18,27)
 ##arf2 = AutoReduceFraction(9,27)
-##print (arf1.subtract(arf2))
+##print(arf1.subtract(arf2))
 ##
 ###other subtraction
 ##arf1 = AutoReduceFraction(7,2)
 ##arf2 = AutoReduceFraction(1,2)
-##print (arf1.subtract(arf2))
+##print(arf1.subtract(arf2))
+
+#multiplication of whole numbers
+##arf1 = AutoReduceFraction(5)
+##arf2 = AutoReduceFraction(3)
+##print (arf1.multiply(arf2))
+
+#multiplication of a whole number and fraction
+##arf1 = AutoReduceFraction(8)
+##arf2 = AutoReduceFraction(1,2)
+##print(arf1.multiply(arf2))
+
+#divding divisible numbers
+##arf1 = AutoReduceFraction(8)
+##arf2 = AutoReduceFraction(4)
+##print (arf1.divideBy(arf2))
+#dividing non-divisible whole numbers
+##arf1 = AutoReduceFraction(18)
+##arf2 = AutoReduceFraction(4)
+##print(arf1.divideBy(arf2))
+
+#dividing fractions that result in fraction
+arf1 = AutoReduceFraction(9,2)
+arf2 = AutoReduceFraction(7,3)
+print(arf1.divideBy(arf2))
+
