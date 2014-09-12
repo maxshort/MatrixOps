@@ -27,11 +27,27 @@ class Fraction(object):
 #returns the most reduced fraction from all operations
 class AutoReduceFraction(Fraction):
     def __init__(self,numerator,denominator=1):
-        super().__init__(self,numerator,denominator)
-        ##TODO : implement
-        ##TODO: super()???
-    ##TODO : add/sub/mult/divide
-
+        super().__init__(numerator)
+        self.reduce()
+    def add(self,other):
+        answer = super().add(other)
+        a = AutoReduceFraction(answer.num,answer.denom)
+        a.reduce()
+        return a
+    #uses euler's method to find the gcd of two numbers
+    @staticmethod
+    def gcd(num1, num2):
+        if (num1==0):
+            return num2
+        if (num2==0):
+            return num1
+        newNum = num1%num2
+        return AutoReduceFraction.gcd(num2,newNum)
+    def reduce(self):
+        eGcd = AutoReduceFraction.gcd(self.num,self.denom)
+        self.num /=eGcd
+        self.denom /=eGcd
+        #########################LEFT OFF HERE...
 class RowOperations:
     def multiplyBy(rowList,value):
         ret = []
@@ -154,11 +170,11 @@ class Matrix:
 ##print(f3.denom)
 
 #Dividing Whole number that do not divide evenly
-f1 = Fraction(15)
-f2 = Fraction(7)
-f3 = f1.divideBy(f2)
-print (f3.num)
-print (f3.denom)
+##f1 = Fraction(15)
+##f2 = Fraction(7)
+##f3 = f1.divideBy(f2)
+##print (f3.num)
+##print (f3.denom)
 
 #Testing the autoreduce fraction inheritance
 ##f1 = AutoReduceFraction(2)
@@ -166,3 +182,19 @@ print (f3.denom)
 ##f3 = f1.add(f2)
 ##print (f3.num)
 ##print (f3.denom)
+
+#Test of static method
+##print (AutoReduceFraction.gcd(8,4))
+
+#test of whole numbers
+##arf1 = AutoReduceFraction(2)
+##arf2 = AutoReduceFraction(3,1)
+##arf3 = arf1.add(arf2)
+##print(arf3.num)
+##print(arf3.denom)
+
+arf1 = AutoReduceFraction(3,2)
+arf3 = arf1.add(arf1)
+print (arf3.num)
+print (arf3.denom)
+
