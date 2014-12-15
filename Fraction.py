@@ -33,7 +33,7 @@ class Fraction(object):
         other = Fraction(other)
         return Fraction(self.num*other.denom,other.num*self.denom)
     def __str__(self):
-        return str(self.num)+"\n-----\n"+str(self.denom)
+        return str(self.num)+"/"+str(self.denom)
     #uses euler's method to find the gcd of two numbers
     @staticmethod
     def gcd(num1, num2):
@@ -76,7 +76,6 @@ class AutoReduceFraction(Fraction):
         super().__init__(numerator,denominator)
         self.reduce()
     def __add__(self,other):
-        print(type(other))
         answer = super().__add__(other)
         a = AutoReduceFraction(answer.num,answer.denom)
         return a

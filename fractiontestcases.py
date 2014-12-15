@@ -1,3 +1,6 @@
+from Fraction import Fraction
+from Fraction import AutoReduceFraction
+
 
 #Test for not allowing zero in denom
 #x = Fraction(1,0)
@@ -138,9 +141,9 @@
 ##print(arf1==arf2)
 ##print(arf1!=arf2)
 
-#arf1 = AutoReduceFraction(8,4)
-#arf2 = AutoReduceFraction(4,2)
-#print (arf1==arf2)
+arf1 = AutoReduceFraction(16,8)
+arf2 = AutoReduceFraction(4,2)
+print (arf1==arf2)
 
 arf1 = AutoReduceFraction(1)
 arf2 = AutoReduceFraction(2)

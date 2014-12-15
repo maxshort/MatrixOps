@@ -32,10 +32,12 @@ class Vector:
         return other.getDimension()==self.getDimension()
     #might need to make this output more readable stuff
     def __str__(self):
-        ret = "["
+        ret = "<"
+        prefix = ""
         for val in self.values:
-            ret+=str(val)+",\n"
-        return ret+"]"
+            ret+=prefix+str(val)
+            prefix = ","
+        return ret+">"
 
     def __add__(self,other):
         """Expecting other to be another vector of the same dimension"""
@@ -61,9 +63,7 @@ class Vector:
         mults = [x*y for x,y in zip(self.values,other.values)]
         ans = AutoReduceFraction(0)    
                                                                                                                                 
-        
         for m in mults: ans+=m
-                                                                                                                                   
         return ans
 
 #Just a basic test
@@ -89,4 +89,5 @@ class Vector:
 #print (Vector([5,4])-Vector([1,1]))
 
 #Dot product test
+#print (Vector([1,1]))
 print (Vector([1,1]).dot(Vector([1,1])))
