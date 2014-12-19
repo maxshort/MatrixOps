@@ -2,70 +2,73 @@ import types
 import collections
 from Fraction import Fraction
 from Fraction import AutoReduceFraction
+from Vector import Vector
 
-        #LEFT OFF HERE...
-class RowOperations:
-    def multiplyBy(rowList,value):
-        ret = []
-        for col in rowList:
-            ret.append(col*value)
-    def is1dList(row):
-        if not type(row) is list: 
-                return False
-        for col in row:
-            if type(col) is list:
-                return False
-        return True
 
 #This assumes a 2d matrix
 #should change to a tuple??
 class Matrix:
-    def __init__(self, matrixList):
-        if not (Matrix.isMatrix2d(matrixList)):
-            raise ValueError("The matrix is not 2d");
-        self.matrix = matrixList
-    def printMatrix(self):
-        print (self.matrix)
-    def getRREF(self): 
-        for row in self.matrix:
-            originalOneVal = row[0]
-            for col in row:
-                print ("HI!")       
-        print ("NOT IMPLEMENTED")
-    def isMatrix2d(matrixList):
-        if not type(matrixList) is list:
-                return False
-        for row in matrixList:
-            if (not RowOperations.is1dList(row) and not row is int and not row is Fraction):
-                return False
-        return True
+    def __init__(self, rowList):
+        if (not Matrix.couldFormMatrix(rowList)):
+            raise Exception("Invalid parameters for matrix: "+rowList)
+        self.rows = rowList
         
-#Test for accepting 1d matrix
-##x = Matrix([1,2,3])
-##x.printMatrix()
-##
-###Test for accepting 3d matrix
-##x = Matrix([[[1,2,3],[1,2,3]],[[1,2,3],[1,2,3]]])
-##x.printMatrix()
+    def isSquare(self):
+        return len(self.rows)==len(self.rows[0]) #only testing 1st row b/c all rows have to have same len
 
-#Test for creating generic matrix
-#x = Matrix([[1,2,3],[1,2,3]])
-#x.printMatrix()
+    #look @ replibr?
+    def __str__(self):
+        ret = "START of matrix\n"
+        for row in self.rows:
+            ret += str(row)+"\n"
+        return ret + "END OF MATRIX"
+    @staticmethod 
+    def couldFormMatrix(vectorList):
+        """If not a list of Vectors that are all the same dimension, it will return false""" 
+        return all(x.getDimension() == vectorList[0].getDimension() for x in vectorList) # Right now, only check is if they have the same dimensino
+    def canAddWith(self,otherMatrix):
+        return isinstance(otherMatrix,Matrix) and self.getDim()==other.getDim()
+    def canMultWith(self,otherMatrix):
+        return isinstance(otherMatrix,Matrix) and self.getColNum()==other.getRowNum()
+    def getRowNum(self):
+        return len(self.rows)
+    def getColNum(self):
+        return self.rows[0].getDimension()
+    def getDim(self):
+        return (self.getRowNum(),self.getColNum())
+    def getCol(self,col):
+        columns = []
+        for row in self.rows:
+            columns.append(row[col])
+        return Vector(columns)
+    def getRow(self,row):
+        return self.rows[row]
+    def __add__(self,otherMatrix):
+        newVecRows = [x+y for (x,y) in zip(self.rows,otherMatrix.rows)]
+        return Matrix(newVecRows)
+        #USE THE ZIP??? LOOK @ Vector??
+    def __mul__(self,otherMatrix):
+        newVecs = []
+        for row in self.rows:
+            newRow = []
+            for cNum in range(0,otherMatrix.getColNum()):
+                newRow.append(row.dot(otherMatrix.getCol(cNum)))
+            newVecs.append(Vector(newRow))
+        return Matrix(newVecs)
+        
+#just testing instantiation
 
-#mat = Matrix([arf1,arf2,arf3,arf4])
+v = Vector([AutoReduceFraction(1),AutoReduceFraction(2),AutoReduceFraction(3)])
+print(v)
 
-arf = AutoReduceFraction(3,4)
+#print(Matrix([v,v]).getDim())
 
-weirdFrac = Fraction(Fraction(3,4))
-print ("HERE:!")
-print (weirdFrac)
+#print(Matrix([v,v,v])+Matrix([v,v,v]))
+one = Vector([1,2])
+two = Vector([2,1])
+id1 = Vector([1,0])
+id2 = Vector([0,1])
 
-#print (3*arf)
-#print (arf*3)
+print(Matrix([one,two])*Matrix([id1,id2]))
 
-For vectors:
-
-            vec = (1,2,3)
-            Can do vec * 3
-            vec + vec (CHECK BOUNNDS)
-            vec 
+print (Matrix([Vector([1,2]),Vector([1,2])])*Matrix([Vector([1,3]),Vector([1,3])]))
