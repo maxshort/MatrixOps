@@ -27,6 +27,8 @@ class Vector:
 
     def getDimension(self):
         return len(self.values)
+    def __len__(self,other):
+        return len(self.values)
 
     def isSameDimension(self,other):
         return other.getDimension()==self.getDimension()
@@ -65,6 +67,9 @@ class Vector:
                                                                                                                                 
         for m in mults: ans+=m
         return ans
+    def __getitem__(self,key):
+        #index error will be naturally raised by tuple anyway
+        return self.values[key]
 
 #Just a basic test
 ##v = Vector([1,2,3])
@@ -91,3 +96,5 @@ class Vector:
 #Dot product test
 #print (Vector([1,1]))
 print (Vector([1,1]).dot(Vector([1,1])))
+
+print (Vector([1,2,3])[1])
