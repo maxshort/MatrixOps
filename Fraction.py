@@ -68,6 +68,13 @@ class Fraction(object):
         return self.__compare(other,lambda num1,num2:num1>num2)
     def __ge__(self,other):
         return self.__compare(other,lambda num1,num2:num1>=num2)
+    __ZERO = None
+    @staticmethod
+    def ZERO():
+        if (Fraction.__ZERO == None):
+            Fraction.__ZERO = Fraction(0)
+        return Fraction.__ZERO
+
 #returns the most reduced fraction from all operations
 #Add/subtract/mult/div are weird b/c they trying to make immutable.
     #might change that.
