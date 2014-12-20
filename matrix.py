@@ -55,6 +55,8 @@ class Matrix:
                 newRow.append(row.dot(otherMatrix.getCol(cNum)))
             newVecs.append(Vector(newRow))
         return Matrix(newVecs)
+    def __getitem__(self,key):
+        return self.getRow(key)
         
 #just testing instantiation
 
@@ -72,3 +74,8 @@ id2 = Vector([0,1])
 print(Matrix([one,two])*Matrix([id1,id2]))
 
 print (Matrix([Vector([1,2]),Vector([1,2])])*Matrix([Vector([1,3]),Vector([1,3])]))
+
+subTestMat = Matrix([one,two])
+
+print(subTestMat)
+print(subTestMat[0][0])
