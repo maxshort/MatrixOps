@@ -70,6 +70,16 @@ class Vector:
     def __getitem__(self,key):
         #index error will be naturally raised by tuple anyway
         return self.values[key]
+    #IF THERE IS NO NON-ZERO IT WILL RETURN None
+    def firstNonZero(self):
+        print("First non-zero called on "+str(self))
+        for i in range(0,self.getDimension()):
+            print("OUTSIDE VAL: "+str(i)+str(self.values[i]))
+            print("ZERO FRAC = "+str(Fraction.ZERO()))
+            if (not (self.values[i] == Fraction.ZERO())):
+                print("VAL: " +str(i))
+                return i
+        return None
 
 #Just a basic test
 ##v = Vector([1,2,3])
@@ -95,6 +105,12 @@ class Vector:
 
 #Dot product test
 #print (Vector([1,1]))
-print (Vector([1,1]).dot(Vector([1,1])))
+#print (Vector([1,1]).dot(Vector([1,1])))
 
-print (Vector([1,2,3])[1])
+#print (Vector([1,2,3])[1])
+
+print(Vector([1,2,3]).firstNonZero())
+
+print(Vector([0,0,1,2]).firstNonZero())
+
+print(Vector([0,0,0]).firstNonZero())
