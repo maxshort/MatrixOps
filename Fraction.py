@@ -73,7 +73,7 @@ class Fraction(object):
     __ZERO = None
     @staticmethod
     def ZERO():
-        if (Fraction.__ZERO == None):
+        if (Fraction.__ZERO is None):
             Fraction.__ZERO = Fraction(0)
         return Fraction.__ZERO
 
