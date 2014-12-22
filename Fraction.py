@@ -49,8 +49,10 @@ class Fraction(object):
         eGcd = Fraction.gcd(self.num,self.denom)
         self.num =int(self.num/eGcd)
         self.denom = int(self.denom/eGcd)
-    #comparison should have two integer arguments -- intended for <(_lt_) etc.
+    #comparison should have two Fraction arguments -- intended for <(_lt_) etc.
     def __compare(self,other,comparison):
+        if (not isinstance(other,Fraction)):
+            raise TypeError("Can only compare Fractions or subclasses")
         commonDenom = self.denom*other.denom
         newNumSelf = self.num*other.denom
         newNumOther = other.num*self.denom
