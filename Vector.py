@@ -27,7 +27,7 @@ class Vector:
 
     def getDimension(self):
         return len(self.values)
-    def __len__(self,other):
+    def __len__(self):
         return len(self.values)
 
     def isSameDimension(self,other):
