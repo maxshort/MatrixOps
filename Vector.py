@@ -29,6 +29,10 @@ class Vector:
         return len(self.values)
     def __len__(self):
         return len(self.values)
+    def __eq__(self,other):
+        return self.values == other.values
+    def __ne__(self,other):
+        return self.values != other.values
 
     def isSameDimension(self,other):
         return other.getDimension()==self.getDimension()
@@ -109,8 +113,14 @@ class Vector:
 
 #print (Vector([1,2,3])[1])
 
-print(Vector([1,2,3]).firstNonZero())
+#print(Vector([1,2,3]).firstNonZero())
 
-print(Vector([0,0,1,2]).firstNonZero())
+#print(Vector([0,0,1,2]).firstNonZero())
 
-print(Vector([0,0,0]).firstNonZero())
+#print(Vector([0,0,0]).firstNonZero())
+
+print(Vector([1,1])==Vector([1,1]))
+
+print(Vector([1,0])!=Vector([0,1]))
+
+print(Vector([1,0,0])==Vector([1,0]))
