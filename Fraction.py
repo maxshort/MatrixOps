@@ -29,7 +29,7 @@ class Fraction(object):
     def __mul__(self,other):
         other = Fraction(other)
         return Fraction(self.num*other.num,self.denom*other.denom)
-    def __div__(self,other):
+    def __floordiv__(self,other):
         other = Fraction(other)
         return Fraction(self.num*other.denom,other.num*self.denom)
     def __str__(self):
@@ -96,9 +96,12 @@ class AutoReduceFraction(Fraction):
         answer = super().__mul__(other)
         a = AutoReduceFraction(answer.num,answer.denom)
         return a
-    def __div__(self,other):
-        answer = super().__div__(other)
+    def __floordiv__(self,other):
+        answer = super().__floordiv__(other)
         a = AutoReduceFraction(answer.num,answer.denom)
         return a
     def copy(self):
         return AutoReduceFraction(self.num,self.denom)
+
+
+print(AutoReduceFraction(3,4)//AutoReduceFraction(1,2))
