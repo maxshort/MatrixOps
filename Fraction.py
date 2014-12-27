@@ -104,4 +104,4 @@ class AutoReduceFraction(Fraction):
         return AutoReduceFraction(self.num,self.denom)
 
 
-print(AutoReduceFraction(3,4)//AutoReduceFraction(1,2))
+#print(AutoReduceFraction(3,4)//AutoReduceFraction(1,2))

@@ -75,16 +75,22 @@ class Vector:
         #index error will be naturally raised by tuple anyway
         return self.values[key]
     #IF THERE IS NO NON-ZERO IT WILL RETURN None
-    def firstNonZero(self):
-        print("First non-zero called on "+str(self))
-        for i in range(0,self.getDimension()):
-            print("OUTSIDE VAL: "+str(i)+str(self.values[i]))
-            print("ZERO FRAC = "+str(Fraction.ZERO()))
-            if (not (self.values[i] == Fraction.ZERO())):
-                print("VAL: " +str(i))
-                return i
-        return None
-
+    def firstNonZeroLoc(self):
+        try: #This try catch is basically a way of caching the val so its only calced once
+            return self.__firstNonZeroLoc
+        except AttributeError:            
+            for i in range(0,self.getDimension()):
+                if (not (self.values[i] == Fraction.ZERO())):
+                    self.__firstNonZeroLoc = i
+                    return i
+            self.__firstNonZeroLoc = None
+            return None
+    #IF THERE IS NO NON-ZERO IT WILL RETURN None
+    def firstNonZeroVal(self):
+        if (self.firstNonZeroLoc() is None):
+            return None
+        return self.values[self.firstNonZeroLoc()]
+    
 #Just a basic test
 ##v = Vector([1,2,3])
 ##print (v.getDimension())
@@ -113,14 +119,17 @@ class Vector:
 
 #print (Vector([1,2,3])[1])
 
-#print(Vector([1,2,3]).firstNonZero())
+print(Vector([1,2,3]).firstNonZeroLoc())
 
-#print(Vector([0,0,1,2]).firstNonZero())
+print(Vector([1,2,3]).firstNonZeroVal())
 
-#print(Vector([0,0,0]).firstNonZero())
+print(Vector([0,0,1,2]).firstNonZeroLoc())
 
-print(Vector([1,1])==Vector([1,1]))
+print(Vector([0,0,0]).firstNonZeroLoc())
 
-print(Vector([1,0])!=Vector([0,1]))
+#print(Vector([1,1])==Vector([1,1]))
 
-print(Vector([1,0,0])==Vector([1,0]))
+#print(Vector([1,0])!=Vector([0,1]))
+
+#print(Vector([1,0,0])==Vector([1,0]))
+
