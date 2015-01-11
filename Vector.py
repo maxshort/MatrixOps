@@ -59,8 +59,12 @@ class Vector:
         if (not (isinstance(other,int) or isinstance(other,float) or isinstance(other, Fraction))):
             raise Exception("Expecting only an int, float or Fraction")
         ans = [x*other for x in self.values]
-        
+        print("INTERPRETING OTHER AS " + str(other))
         return Vector(ans)
+
+    def __floordiv__(self,other):
+        """Divide by a scalar"""
+        return self.__mul__(AutoReduceFraction(1)//AutoReduceFraction(other))
 
     def dot(self,other):
         if (not (isinstance(other,Vector) and self.getDimension()==other.getDimension())):
@@ -133,3 +137,4 @@ print(Vector([0,0,0]).firstNonZeroLoc())
 
 #print(Vector([1,0,0])==Vector([1,0]))
 
+print("ANS" + str(Vector([2,2,2])//4))
