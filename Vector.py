@@ -59,7 +59,6 @@ class Vector:
         if (not (isinstance(other,int) or isinstance(other,float) or isinstance(other, Fraction))):
             raise Exception("Expecting only an int, float or Fraction")
         ans = [x*other for x in self.values]
-        print("INTERPRETING OTHER AS " + str(other))
         return Vector(ans)
 
     def __floordiv__(self,other):

@@ -102,16 +102,31 @@ class Matrix:
                 while nextVec is not None and nextVec.firstNonZeroLoc() == topVec.firstNonZeroLoc():
                     subNextVec = nextVec - topVec*(nextVec.firstNonZeroVal()//topVec.firstNonZeroVal())
                     q.put_nowait(qForm(subNextVec))
-                    if not q.empty():
-                        nextVec = vecForm(q.get_nowait())
-                    else:
-                        q.put_nowait(qForm(nextVec))
-                        nextVec = None
+                    nextVec = vecForm(q.get_nowait()) #Have to put in queue to make sure we don't skip any w/ same pivot
                 if nextVec is not None: #got out of loop b/c pivot position didn't math. There is probably a cleaner way to do this
                     q.put_nowait(qForm(nextVec))
                 finishedVecs.append(topVec)#topVec is now the only one w/ that pivot
         return Matrix(finishedVecs)
-        
+    #Returns the reduced row echelon form of the matrix.
+    def getRREF(self):
+        ref = self.getREF()
+        startWithOnes = []
+        for row in ref.rows:
+            if (row.firstNonZeroVal() is not None):
+                startWithOnes.append(row//row.firstNonZeroVal())
+            else:
+                startWithOnes.append(row)
+        #Subtract all further down the line
+        #Using indicices so nested will work
+        #Starting @ bottom
+        #Can't subtract anything by 0
+        for subtractByIdx in range(len(startWithOnes) - 1,0,-1):
+            if startWithOnes[subtractByIdx].firstNonZeroVal() is None:
+                continue
+            #subtract all the other ones
+            for toClear in range(0,subtractByIdx):
+                startWithOnes[toClear] = startWithOnes[toClear] - (startWithOnes[subtractByIdx]*startWithOnes[toClear][subtractByIdx])
+        return Matrix(startWithOnes)        
 #just testing instantiation
 
 v = Vector([AutoReduceFraction(1),AutoReduceFraction(2),AutoReduceFraction(3)])
@@ -135,12 +150,12 @@ id2 = Vector([0,1])
 #print(subTestMat[0][0])
 
 
-print(Matrix([one,two]).getREF())
+print(Matrix([one,two]).getRREF())
 
-print(Matrix([Vector([3,1]),Vector([0,0])]).getREF())
+print(Matrix([Vector([3,1]),Vector([0,0])]).getRREF())
 
-print(Matrix([Vector([1,2,3])]).getREF())
+print(Matrix([Vector([1,2,3])]).getRREF())
 
-print(Matrix([Vector([1,2,3]),Vector([4,5,6]),Vector([7,8,9])]).getREF())
+print(Matrix([Vector([1,2,3]),Vector([4,5,6]),Vector([7,8,9])]).getRREF())
 
-print(Matrix([Vector([0,0,0])]).getREF())
+print(Matrix([Vector([0,0,0])]).getRREF())
