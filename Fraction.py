@@ -13,7 +13,9 @@ class Fraction(object):
             self.num = numerator
             self.denom = denominator
         self.num = int(self.num)
-        self.denom = int(self.denom) #explicitly converting so it will complain if they pass something weird 
+        self.denom = int(self.denom) #explicitly converting so it will complain if they pass something weird
+        if (self.denom == 0):
+            raise ValueError("Denominator cannot be 0.")
     #add two fractions, return a new one
     #Not guaranteed to be lowest
     def __add__(self, other):
