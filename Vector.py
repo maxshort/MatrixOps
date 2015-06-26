@@ -21,7 +21,7 @@ class Vector:
         """To keep this simple, right now _only_ taking a list of ints and/or fractions"""
         #initializing from a list of mixed ints and/or fractions
         if (len(args)!=1 or type(args[0])!=list):
-            raise Exception("Expecting single list argument for vector")
+            raise ValueError("Expecting single list argument for vector")
         cleanList = [AutoReduceFraction(x) for x in args[0]]
         self.values = tuple(cleanList)
 
@@ -93,47 +93,4 @@ class Vector:
         if (self.firstNonZeroLoc() is None):
             return None
         return self.values[self.firstNonZeroLoc()]
-    
-#Just a basic test
-##v = Vector([1,2,3])
-##print (v.getDimension())
-##print(v)
-
-#Adding test
-##v = Vector([2,1])
-##v1 = Vector([3,4])
-##v2 = v+v1
-##print(v2)
-
-#Some mult tests
-##v = Vector([2,1])
-##v2 = v*AutoReduceFraction(1,2)
-##print (v2)
                                                                                                                                    
-##v3 = v*4
-##print(v3)
-
-#Subtract test
-#print (Vector([5,4])-Vector([1,1]))
-
-#Dot product test
-#print (Vector([1,1]))
-#print (Vector([1,1]).dot(Vector([1,1])))
-
-#print (Vector([1,2,3])[1])
-
-print(Vector([1,2,3]).firstNonZeroLoc())
-
-print(Vector([1,2,3]).firstNonZeroVal())
-
-print(Vector([0,0,1,2]).firstNonZeroLoc())
-
-print(Vector([0,0,0]).firstNonZeroLoc())
-
-#print(Vector([1,1])==Vector([1,1]))
-
-#print(Vector([1,0])!=Vector([0,1]))
-
-#print(Vector([1,0,0])==Vector([1,0]))
-
-print("ANS" + str(Vector([2,2,2])//4))
