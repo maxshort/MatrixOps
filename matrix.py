@@ -10,7 +10,7 @@ from queue import PriorityQueue
 class Matrix:
     def __init__(self, rowList):
         if (not Matrix.couldFormMatrix(rowList)):
-            raise Exception("Invalid parameters for matrix: "+rowList)
+            raise ValueError("Invalid parameters for matrix: " + str(rowList))
         self.rows = rowList
     def isSquare(self):
         return len(self.rows)==len(self.rows[0]) #only testing 1st row b/c all rows have to have same len
@@ -26,9 +26,9 @@ class Matrix:
         """If not a list of Vectors that are all the same dimension, it will return false""" 
         return all(x.getDimension() == vectorList[0].getDimension() for x in vectorList) # Right now, only check is if they have the same dimensino
     def canAddWith(self,otherMatrix):
-        return isinstance(otherMatrix,Matrix) and self.getDim()==other.getDim()
+        return isinstance(otherMatrix,Matrix) and self.getDim()==otherMatrix.getDim()
     def canMultWith(self,otherMatrix):
-        return isinstance(otherMatrix,Matrix) and self.getColNum()==other.getRowNum()
+        return isinstance(otherMatrix,Matrix) and self.getColNum()==otherMatrix.getRowNum()
     def getRowNum(self):
         return len(self.rows)
     def getColNum(self):
@@ -43,9 +43,11 @@ class Matrix:
     def getRow(self,row):
         return self.rows[row]
     def __add__(self,otherMatrix):
+        if not self.canAddWith(otherMatrix): raise ValueError("Cannot add " + str(otherMatrix))
         newVecRows = [x+y for (x,y) in zip(self.rows,otherMatrix.rows)]
         return Matrix(newVecRows)
-    def __mul__(self,otherMatrix):
+    def __mul__(self,otherMatrix): #TODO: Threre is a more efficeint way to multiply!
+        if not self.canMultWith(otherMatrix): raise ValueError("Cannot mult with " + str(otherMatrix))
         newVecs = []
         for row in self.rows:
             newRow = []
@@ -53,6 +55,12 @@ class Matrix:
                 newRow.append(row.dot(otherMatrix.getCol(cNum)))
             newVecs.append(Vector(newRow))
         return Matrix(newVecs)
+
+    def __eq__(self, otherMatrix):
+        if not isinstance(otherMatrix, Matrix): return False
+        for pair in zip(self.rows, otherMatrix.rows):
+            if not pair[0] == pair[1]: return False
+        return True
     def __getitem__(self,key):
         return self.getRow(key)
     #returns a Reduced Echelon Form of this matrix
@@ -127,20 +135,8 @@ class Matrix:
             for toClear in range(0,subtractByIdx):
                 startWithOnes[toClear] = startWithOnes[toClear] - (startWithOnes[subtractByIdx]*startWithOnes[toClear][subtractByIdx])
         return Matrix(startWithOnes)        
-#just testing instantiation
 
-v = Vector([AutoReduceFraction(1),AutoReduceFraction(2),AutoReduceFraction(3)])
-#print(v)
 
-#print(Matrix([v,v]).getDim())
-
-#print(Matrix([v,v,v])+Matrix([v,v,v]))
-one = Vector([1,2])
-two = Vector([2,1])
-id1 = Vector([1,0])
-id2 = Vector([0,1])
-
-#print(Matrix([one,two])*Matrix([id1,id2]))
 
 #print (Matrix([Vector([1,2]),Vector([1,2])])*Matrix([Vector([1,3]),Vector([1,3])]))
 
@@ -150,12 +146,12 @@ id2 = Vector([0,1])
 #print(subTestMat[0][0])
 
 
-print(Matrix([one,two]).getRREF())
-
-print(Matrix([Vector([3,1]),Vector([0,0])]).getRREF())
-
-print(Matrix([Vector([1,2,3])]).getRREF())
-
-print(Matrix([Vector([1,2,3]),Vector([4,5,6]),Vector([7,8,9])]).getRREF())
-
-print(Matrix([Vector([0,0,0])]).getRREF())
+##print(Matrix([one,two]).getRREF())
+##
+##print(Matrix([Vector([3,1]),Vector([0,0])]).getRREF())
+##
+##print(Matrix([Vector([1,2,3])]).getRREF())
+##
+##print(Matrix([Vector([1,2,3]),Vector([4,5,6]),Vector([7,8,9])]).getRREF())
+##
+##print(Matrix([Vector([0,0,0])]).getRREF())
