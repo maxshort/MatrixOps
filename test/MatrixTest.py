@@ -98,25 +98,55 @@ class MatrixTest(unittest.TestCase):
 
         m = Matrix([four_3_7_5, four_3_7_9, four_3_7_0])
         mREF = Matrix([four_3_7_5, zero_0_0_4,zero_0_0_0])
-        print (m.getREF())
         self.assertEqual(mREF, m.getREF())
 
-##    def test_RREFWorks(self):
-##        one0 = Vector([1, 0])
-##        zero1 = Vector([0, 1])
-##        identity2 = Matrix([one0, zero1])
-##        self.assertEqual(identity2, identity2.getRREF())
-##
-##        four_3_7_5 = Vector([4, 3, 7, 5])
-##        four_3_7_9 = Vector([4, 3, 7, 9])
-##        four_3_7_0 = Vector([4, 3, 7, 5])
-##
-##        m = Matrix([four_3_7_5, four_3_7_9, four_3_7_0])
-##
-##        mRREF_v1 = Vector([1, AutoReduceFraction(3, 4), AutoReduceFraction(7,4), AutoReduceFraction(5,4)])
-##        mRREF_v2 = Vector([0, 0, 0, AutoReduceFraction(9, 4)])
-##        mRREF_v3 = Vector([0, 0, 0, 0])
-##
-##        mRREF = Matrix([mRREF_v1, mRREF_v2, mRREF_v3])
-##        print(m.getRREF())
-##        self.assertEqual(mRREF, m.getRREF())
+    def test_RREFWorks(self):
+        one0 = Vector([1, 0])
+        zero1 = Vector([0, 1])
+        identity2 = Matrix([one0, zero1])
+        self.assertEqual(identity2, identity2.getRREF())
+
+        zero0 = Vector([0, 0])
+        zeroMat = Matrix([zero0, zero0])
+        self.assertEqual(zeroMat, zeroMat.getRREF())
+
+        four_3_7_5 = Vector([4, 3, 7, 5])
+        four_3_7_9 = Vector([4, 3, 7, 9])
+        four_3_7_0 = Vector([4, 3, 7, 5])
+
+        m = Matrix([four_3_7_5, four_3_7_9, four_3_7_0])
+
+        mRREF_v1 = Vector([1, AutoReduceFraction(3, 4), AutoReduceFraction(7,4), 0])
+        mRREF_v2 = Vector([0, 0, 0, 1])
+        mRREF_v3 = Vector([0, 0, 0, 0])
+
+        mRREF = Matrix([mRREF_v1, mRREF_v2, mRREF_v3])
+        self.assertEqual(mRREF, m.getRREF())
+
+        #http://www.math.fsu.edu/~bellenot/class/f08/lalab/other/rref2.pdf
+        one_2_1 = Vector([1, 2, 1])
+        neg2_neg3_1 = Vector([-2, -3, 1])
+        three_5_0 = Vector([3, 5, 0])
+        fromFSU = Matrix([one_2_1, neg2_neg3_1, three_5_0])
+
+        one_0_neg5 = Vector([1, 0, -5])
+        zero_1_3 = Vector([0, 1, 3])
+        zero_0_0 = Vector([0, 0, 0])
+        fsuAns = Matrix([one_0_neg5, zero_1_3, zero_0_0])
+        self.assertEqual(fsuAns, fromFSU.getRREF())
+
+    def test_subscriptsCanGetToAnyPoint(self):
+        one_2_3 = Vector([1, 2, 3])
+        four_5_6 = Vector([4, 5, 6])
+        seven_8_9 = Vector([7, 8, 9])
+
+        m = Matrix([one_2_3, four_5_6, seven_8_9])
+        self.assertEqual(AutoReduceFraction(1), m[0][0])
+        self.assertEqual(AutoReduceFraction(2), m[0][1])
+        self.assertEqual(AutoReduceFraction(3), m[0][2])
+        self.assertEqual(AutoReduceFraction(4), m[1][0])
+        self.assertEqual(AutoReduceFraction(5), m[1][1])
+        self.assertEqual(AutoReduceFraction(6), m[1][2])
+        self.assertEqual(AutoReduceFraction(7), m[2][0])
+        self.assertEqual(AutoReduceFraction(8), m[2][1])
+        self.assertEqual(AutoReduceFraction(9), m[2][2])

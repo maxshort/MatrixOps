@@ -124,34 +124,17 @@ class Matrix:
                 startWithOnes.append(row//row.firstNonZeroVal())
             else:
                 startWithOnes.append(row)
-        #Subtract all further down the line
-        #Using indicices so nested will work
-        #Starting @ bottom
-        #Can't subtract anything by 0
-        for subtractByIdx in range(len(startWithOnes) - 1,0,-1):
-            if startWithOnes[subtractByIdx].firstNonZeroVal() is None:
-                continue
-            #subtract all the other ones
-            for toClear in range(0,subtractByIdx):
-                startWithOnes[toClear] = startWithOnes[toClear] - (startWithOnes[subtractByIdx]*startWithOnes[toClear][subtractByIdx])
+        #assuming that startWithOnes is in REF order
+        for i in range(len(startWithOnes) -1, 0, -1):
+            subtractor = startWithOnes[i]
+            firstNonZeroLoc = subtractor.firstNonZeroLoc()
+            if firstNonZeroLoc is not None:
+                for j in range(i -1, -1, -1):
+                    startWithOnes[j] = startWithOnes[j] - subtractor * startWithOnes[j][firstNonZeroLoc]
         return Matrix(startWithOnes)        
 
-
-
-#print (Matrix([Vector([1,2]),Vector([1,2])])*Matrix([Vector([1,3]),Vector([1,3])]))
 
 #subTestMat = Matrix([one,two])
 
 #print(subTestMat)
 #print(subTestMat[0][0])
-
-
-##print(Matrix([one,two]).getRREF())
-##
-##print(Matrix([Vector([3,1]),Vector([0,0])]).getRREF())
-##
-##print(Matrix([Vector([1,2,3])]).getRREF())
-##
-##print(Matrix([Vector([1,2,3]),Vector([4,5,6]),Vector([7,8,9])]).getRREF())
-##
-##print(Matrix([Vector([0,0,0])]).getRREF())
