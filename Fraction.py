@@ -79,6 +79,11 @@ class Fraction(object):
             Fraction.__ZERO = Fraction(0)
         return Fraction.__ZERO
 
+    def __hash__(self):
+        #designed so that use cases like 1/2, 1/3, 1/4 etc. will return diff. hashes
+        #Can't see an issue if this overflows
+        return (self.num+self.denom)
+
 #returns the most reduced fraction from all operations
 #Add/subtract/mult/div are weird b/c they trying to make immutable.
     #might change that.
