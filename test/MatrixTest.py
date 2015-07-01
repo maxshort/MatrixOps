@@ -150,3 +150,18 @@ class MatrixTest(unittest.TestCase):
         self.assertEqual(AutoReduceFraction(7), m[2][0])
         self.assertEqual(AutoReduceFraction(8), m[2][1])
         self.assertEqual(AutoReduceFraction(9), m[2][2])
+
+    def test_identityWorks(self):
+        id1 = Matrix([Vector([1])])
+        id2 = Matrix([Vector([1, 0]), Vector([0, 1])])
+        id3 = Matrix([Vector([1, 0, 0]), Vector([0, 1, 0]), Vector([0, 0, 1])])
+
+        self.assertEqual(id1, Matrix.identityMatrix(1))
+        self.assertEqual(id2, Matrix.identityMatrix(2))
+        self.assertEqual(id3, Matrix.identityMatrix(3))
+
+        try:
+            Matrix.identityMatrix(0)
+            fail("Did not reject request for idenitty matrix of size 0.")
+        except(ValueError):
+            pass

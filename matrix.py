@@ -131,7 +131,16 @@ class Matrix:
             if firstNonZeroLoc is not None:
                 for j in range(i -1, -1, -1):
                     startWithOnes[j] = startWithOnes[j] - subtractor * startWithOnes[j][firstNonZeroLoc]
-        return Matrix(startWithOnes)        
+        return Matrix(startWithOnes)
+
+    @staticmethod
+    def identityMatrix(size):
+        if size <= 0:
+            raise ValueError("size must be at least 1. Was "+str(size))
+        vecs = []
+        for pos in range (0, size):
+            vecs.append(Vector([0]*pos + [1] + [0]*(size-pos -1)))
+        return Matrix(vecs)
 
 
 #subTestMat = Matrix([one,two])
