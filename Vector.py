@@ -3,18 +3,10 @@ from Fraction import AutoReduceFraction
 
 #IDEA:
 # represent internally as tuple
-# mostly provide ways of multiplying/adding and then making new immutables
-# Matrices would _not_ be made up of these...mostly would just use them to perform row ops
 
 #TODO:
     #Initialize from int/fraction args
     #Initialize from int/fraction tuple args
-    #Initialize from int/fraction list args
-
-    #support adding/subtracting like vectors _DONE
-    #support multiplying by scalar numbers/fractions -DONE
-    #
-    #support dot product - DONE
 
 class Vector:
     def __init__(self,*args):
@@ -93,4 +85,16 @@ class Vector:
         if (self.firstNonZeroLoc() is None):
             return None
         return self.values[self.firstNonZeroLoc()]
-                                                                                                                                   
+
+    @staticmethod
+    def areLinearlyIndependent(vecs):
+        for v in vecs[1:]:
+            if v.getDimension() != vecs[0].getDimension():
+                raise ValueError("Vectors must the the same dimension")
+        ratios = set()
+        for v in vecs:
+            ratios.add(tuple(z//v[0] for z in v[1:]))
+        print(ratios)
+        return len(ratios) == len(vecs)
+        
+    

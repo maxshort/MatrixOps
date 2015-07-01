@@ -65,5 +65,22 @@ class VectorTest(unittest.TestCase):
     def test_scalarDivWorks(self):
         v = Vector([2, 2, 2])
         self.assertEqual(Vector([AutoReduceFraction(1, 2), AutoReduceFraction(1, 2), AutoReduceFraction(1, 2)]), v//4)
-    
-    
+
+    def test_linearIndependenceShouldNotAcceptVectorsOfDifferentDims(self):
+        try:
+            Vector.areLinearlyIndependent([Vector([1]), Vector([2, 3])])
+            self.fail("expecting ValueError to be thrown")
+        except(ValueError):
+            pass
+            
+    def test_linearIndependenceWorks(self):
+        one_1 = Vector([1, 1])
+        three_3 = Vector([3, 3])
+        self.assertFalse(Vector.areLinearlyIndependent([one_1, three_3]))
+
+        one = Vector([1])
+        three = Vector([3])
+        self.assertFalse(Vector.areLinearlyIndependent([one, three]))
+
+        one_3 = Vector([1, 3])
+        self.assertTrue(Vector.areLinearlyIndependent([one_1, one_3]))
